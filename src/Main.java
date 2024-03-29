@@ -10,12 +10,11 @@ private static List<Cliente> clientes = new ArrayList<>();
         boolean continuar = true;
         while (continuar) {
             System.out.println("Seleccione una opción:");
-            System.out.println("1. Insertar cliente");
-            System.out.println("2. Actualizar ahorro de cliente");
-            System.out.println("3. Eliminar cliente");
-            System.out.println("4. Buscar cliente por nombre y ver su ahorro");
-            System.out.println("5. Listar todos los clientes");
-            System.out.println("6. Salir");
+            System.out.println("1. Insertar cliente");;
+            System.out.println("2. Eliminar cliente");
+            System.out.println("3. Buscar cliente por nombre y ver su ahorro");
+            System.out.println("4. Listar todos los clientes");
+            System.out.println("5. Salir");
 
             int opcion = scanner.nextInt();
             scanner.nextLine(); // Limpiar el buffer del scanner
@@ -25,18 +24,15 @@ private static List<Cliente> clientes = new ArrayList<>();
                     insertarCliente();
                     break;
                 case 2:
-                    actualizarAhorroCliente();
-                    break;
-                case 3:
                     eliminarCliente();
                     break;
-                case 4:
+                case 3:
                     buscarClientePorNombre();
                     break;
-                case 5:
+                case 4:
                     listarClientes();
                     break;
-                case 6:
+                case 5:
                     continuar = false;
                     break;
                 default:
@@ -88,12 +84,15 @@ private static List<Cliente> clientes = new ArrayList<>();
         System.out.println("Ingrese la fecha de creación del cliente:");
         String fechacreacion = scanner.nextLine();
 
-        Cliente cliente = new Cliente(nombre, cedula, 0.0,nivelingresos ,fechacreacion);
+        System.out.println("Ingrese la cantidad de dinero ahorrado:");
+        Double ahorro  = scanner.nextDouble();
+
+        Cliente cliente = new Cliente(nombre, cedula, ahorro ,nivelingresos ,fechacreacion);
         clientes.add(cliente);
         System.out.println("Cliente insertado correctamente.");
     }
 
-    private static void actualizarAhorroCliente() {
+    /*private static void actualizarAhorroCliente() {
         System.out.println("Ingrese el nombre del cliente:");
         String nombre = scanner.nextLine();
         Cliente clienteEncontrado = null;
@@ -111,7 +110,7 @@ private static List<Cliente> clientes = new ArrayList<>();
         } else {
             System.out.println("Cliente no encontrado.");
         }
-    }
+    }*/
 
     private static void eliminarCliente() {
         System.out.println("Ingrese el nombre del cliente:");
