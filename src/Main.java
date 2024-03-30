@@ -79,18 +79,22 @@ private static List<Cliente> clientes = new ArrayList<>();
         }
     } while (nivelingresos.isEmpty()); // Continuar el bucle si el nivel de ingresos no ha sido asignado
 
-       
-    scanner.nextLine(); // Limpiar el buffer del scanner
+    Double ahorro = 0.0;
+    while (ahorro <= 0) {//ingresar un valor de ahorro mayor que cero
+        System.out.println("Ingrese la cantidad de dinero ahorrado:");
+        ahorro = scanner.nextDouble();
+        if (ahorro <= 0) {
+            System.out.println("Ingrese un valor correcto, mayor o igual que 0$");}
+        }
+   
+        scanner.nextLine(); // Limpiar el buffer del scanner
         System.out.println("Ingrese la fecha de creación del cliente:");
         String fechacreacion = scanner.nextLine();
 
-        System.out.println("Ingrese la cantidad de dinero ahorrado:");
-        Double ahorro  = scanner.nextDouble();
 
         Cliente cliente = new Cliente(nombre, cedula, ahorro ,nivelingresos ,fechacreacion);
         clientes.add(cliente);
-        System.out.println("Cliente insertado correctamente.");
-    }
+        System.out.println("Cliente insertado correctamente.");}
 
 
     private static void eliminarCliente() {
