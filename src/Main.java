@@ -14,7 +14,8 @@ private static List<Cliente> clientes = new ArrayList<>();
             System.out.println("2. Eliminar cliente");
             System.out.println("3. Buscar cliente por nombre y ver su ahorro");
             System.out.println("4. Listar todos los clientes");
-            System.out.println("5. Salir");
+            System.out.println("5. Realizar Prestamo");
+            System.out.println("6. Salir");
 
             int opcion = scanner.nextInt();
             scanner.nextLine(); // Limpiar el buffer del scanner
@@ -33,6 +34,9 @@ private static List<Cliente> clientes = new ArrayList<>();
                     listarClientes();
                     break;
                 case 5:
+                    PrestarDinero();
+                    break;
+                case 6:
                     continuar = false;
                     break;
                 default:
@@ -48,36 +52,36 @@ private static List<Cliente> clientes = new ArrayList<>();
         System.out.println("Ingrese la cédula del cliente:");
         String cedula = scanner.nextLine();
         int opcion;
-    String nivelingresos = ""; // Declarar la variable fuera del switch
+        String nivelingresos = ""; // Declarar la variable fuera del switch
 
-    do {
-        System.out.println("Seleccione el nivel de ingresos del cliente:");
-        System.out.println("1. Bajo");
-        System.out.println("2. Medio");
-        System.out.println("3. Alto");
-        opcion = scanner.nextInt();
+        do {
+            System.out.println("Seleccione el nivel de ingresos del cliente:");
+            System.out.println("1. Bajo");
+            System.out.println("2. Medio");
+            System.out.println("3. Alto");
+            opcion = scanner.nextInt();
         
-        // Limpiar el buffer del scanner
-        scanner.nextLine();
+            // Limpiar el buffer del scanner
+            scanner.nextLine();
 
-        switch (opcion) {
-            case 1:
-                nivelingresos = "Bajo";
-                System.out.println("El cliente tiene ingresos bajos.");
-                break;
-            case 2:
-                nivelingresos = "Medio";
-                System.out.println("El cliente tiene ingresos medios.");
-                break;
-            case 3:
-                nivelingresos = "Alto";
-                System.out.println("El cliente tiene ingresos altos.");
-                break;
-            default:
-                System.out.println("Opción inválida. Por favor, seleccione una opción válida (1, 2 o 3).");
-                break;
-        }
-    } while (nivelingresos.isEmpty()); // Continuar el bucle si el nivel de ingresos no ha sido asignado
+            switch (opcion) {
+                case 1:
+                    nivelingresos = "Bajo";
+                    System.out.println("El cliente tiene ingresos bajos.");
+                    break;
+                case 2:
+                    nivelingresos = "Medio";
+                    System.out.println("El cliente tiene ingresos medios.");
+                    break;
+                case 3:
+                    nivelingresos = "Alto";
+                    System.out.println("El cliente tiene ingresos altos.");
+                    break;
+                default:
+                    System.out.println("Opción inválida. Por favor, seleccione una opción válida (1, 2 o 3).");
+                    break;
+            }
+        } while (nivelingresos.isEmpty()); // Continuar el bucle si el nivel de ingresos no ha sido asignado
 
     Double ahorro = 0.0;
     while (ahorro <= 0) {//ingresar un valor de ahorro mayor que cero
@@ -166,4 +170,45 @@ private static List<Cliente> clientes = new ArrayList<>();
                 System.out.println("Nombre: " + cliente.getNombre());
                 System.out.println("Cédula: " + cliente.getCedula());
                 System.out.println("Nivel de Ingresos: " + cliente.getNivelingresos());
-                System.out.println("Ahorro: " + cliente.getAhorro());}}}}
+                System.out.println("Ahorro: " + cliente.getAhorro());
+            
+            }
+        }
+    }
+    public static void PrestarDinero(){
+
+        System.out.println("Ingrese nombre de cliente: ");
+        String nombreCliente = scanner.nextLine();
+        System.out.println("Ingrese la cantidad a prestar: ");
+        double cantidad =scanner.nextDouble();
+
+        Cliente clienteEncontrado =null;
+        for(Cliente cliente : clientes){
+            if(cliente.getNombre().equalsIgnoreCase(nombreCliente)){
+            clienteEncontrado = cliente;
+            break;
+            }
+
+        }
+        if(clienteEncontrado !=null) {
+            if(cantidad <= clienteEncontrado.getAhorro()){
+            clienteEncontrado.setAhorro(clienteEncontrado.getAhorro() - cantidad);
+            System.out.println("Prestamo exitoso, Tu saldo actual es:  " + clienteEncontrado.getAhorro());
+
+        }else if(cantidad <=clienteEncontrado.getAhorro() *2){
+            double intereses = cantidad *0.02;
+            double totalDeuda =cantidad + intereses;
+            double cuotaMensual = totalDeuda/6;
+            System.out.println("Prestamo esxitoso. la cuota mensual sera: " + cuotaMensual);
+
+        }else{
+            System.out.println("No te podemos prestar dado que la cantidad es superiro al doble de tus ahorros. ");
+
+        }
+
+      }else{
+        System.out.println("cliente no encontrado.");
+      }
+    }
+
+}
