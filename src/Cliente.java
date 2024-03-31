@@ -5,12 +5,14 @@ public class Cliente {
   private String nivelingresos;
   private String fechacreacion; 
 
+
 public Cliente(String nombre,String cedula,Double ahorro, String nivelingresos,String fechacreacion){
        this.nombre = nombre;
        this.cedula = cedula; 
        this.ahorro = ahorro;
        this.nivelingresos = nivelingresos;
-       this.fechacreacion = fechacreacion;}
+       this.fechacreacion = fechacreacion;
+        }
 
 public String getNombre() {
     return nombre;
@@ -50,9 +52,9 @@ public String getFechacreacion() {
 
 public void setFechacreacion(String fechacreacion) {
     this.fechacreacion = fechacreacion;
-}}
-
-
-
+}
+}
+    
+    
 
 
