@@ -15,7 +15,8 @@ private static List<Cliente> clientes = new ArrayList<>();
             System.out.println("3. Buscar cliente por nombre y ver su ahorro");
             System.out.println("4. Listar todos los clientes");
             System.out.println("5. Realizar préstamo");
-            System.out.println("6. Salir");
+            System.out.println("6. Solicitar un CDT");
+            System.out.println("7. Salir");
 
             int opcion = scanner.nextInt();
             scanner.nextLine(); // Limpiar el buffer del scanner
@@ -37,6 +38,9 @@ private static List<Cliente> clientes = new ArrayList<>();
                     prestardinero();
                     break;
                 case 6:
+                    cdt();
+                    break;
+                case 7:
                     continuar = false;
                     break;
                 default:
@@ -176,4 +180,31 @@ private static List<Cliente> clientes = new ArrayList<>();
                     } else {
                         System.out.println("Cliente no encontrado.");
                     }
-                }}
+                }
+
+    public static void cdt() {
+                System.out.println("Ingrese el nombre del cliente:");
+                String nombreCliente = scanner.nextLine();
+                Cliente clienteEncontrado = null;
+                    for (Cliente cliente : clientes) {
+                        if (cliente.getNombre().equalsIgnoreCase(nombreCliente)) {
+                            clienteEncontrado = cliente;
+                            break;
+                        }
+                    }
+            
+                    if (clienteEncontrado != null) {
+                        System.out.println("¿Por cuántos meses desea el CDT? (3 o 6)");
+                        int meses = scanner.nextInt();
+                        double interesAnual = (meses == 3) ? 0.03 : 0.05;
+                        double interesMensual = interesAnual / 12;
+                        double dineroAhorrado = clienteEncontrado.getAhorro();
+                        double totalGanado = dineroAhorrado * interesMensual * meses;
+                        double dinerototal = dineroAhorrado + totalGanado;
+                        System.out.println("Después de " + meses + " meses, usted ganará $" + totalGanado + " en intereses.");
+                        System.out.println("Por lo tanto, usted quedará con un ahorro de $" + dinerototal );
+                    } else { 
+                        System.out.println("Cliente no encontrado.");
+                    }
+                }
+            }
