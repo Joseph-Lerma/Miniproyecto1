@@ -12,9 +12,9 @@ private static List<Cliente> clientes = new ArrayList<>();
             System.out.println("Seleccione una opción:");
             System.out.println("1. Insertar cliente");;
             System.out.println("2. Eliminar cliente");
-            System.out.println("3. Actualizar dinero ahorrado");
-            System.out.println("4. Buscar cliente por nombre y ver su ahorro");
-            System.out.println("5. Listar todos los clientes");
+            System.out.println("3. Buscar cliente por nombre y ver su ahorro");
+            System.out.println("4. Listar todos los clientes");
+            System.out.println("5. Realizar Prestamo");
             System.out.println("6. Salir");
 
             int opcion = scanner.nextInt();
@@ -28,12 +28,13 @@ private static List<Cliente> clientes = new ArrayList<>();
                     eliminarCliente();
                     break;
                 case 3:
-                    actualizarAhorroCliente();
-                case 4:
                     buscarClientePorNombre();
                     break;
-                case 5:
+                case 4:
                     listarClientes();
+                    break;
+                case 5:
+                    PrestarDinero();
                     break;
                 case 6:
                     continuar = false;
@@ -82,44 +83,23 @@ private static List<Cliente> clientes = new ArrayList<>();
             }
         } while (nivelingresos.isEmpty()); // Continuar el bucle si el nivel de ingresos no ha sido asignado
 
-       
+    Double ahorro = 0.0;
+    while (ahorro <= 0) {//ingresar un valor de ahorro mayor que cero
+        System.out.println("Ingrese la cantidad de dinero ahorrado:");
+        ahorro = scanner.nextDouble();
+        if (ahorro <= 0) {
+            System.out.println("Ingrese un valor correcto, mayor o igual que 0$");}
+        }
+   
         scanner.nextLine(); // Limpiar el buffer del scanner
         System.out.println("Ingrese la fecha de creación del cliente:");
         String fechacreacion = scanner.nextLine();
-        
-        double ahorro =0;
-        while(ahorro <=0){//ingresar un valor de ahorro mayor que cero
-            System.out.println("Ingrese la cantidad de dinero ahorrado:");
-            ahorro  = scanner.nextDouble();
-            if(ahorro<=0){
-                    System.out.println("ingrese un valor correcto, mayor o igual que 0$");
-            }
-        }
+
 
         Cliente cliente = new Cliente(nombre, cedula, ahorro ,nivelingresos ,fechacreacion);
         clientes.add(cliente);
-        System.out.println("Cliente insertado correctamente.");
-    }
+        System.out.println("Cliente insertado correctamente.");}
 
-    private static void actualizarAhorroCliente() {
-        System.out.println("Ingrese el nombre del cliente:");
-        String nombre = scanner.nextLine();
-        Cliente clienteEncontrado = null;
-        for (Cliente cliente : clientes) {
-            if (cliente.getNombre().equalsIgnoreCase(nombre)) {
-                clienteEncontrado = cliente;
-                break;
-            }
-        }
-        if (clienteEncontrado != null) {
-            System.out.println("Ingrese la cantidad de dinero ahorrado:");
-            double ahorro = scanner.nextDouble();
-            clienteEncontrado.setAhorro(ahorro);
-            System.out.println("Ahorro actualizado correctamente.");
-        } else {
-            System.out.println("Cliente no encontrado.");
-        }
-    }
 
     private static void eliminarCliente() {
         System.out.println("Ingrese el nombre del cliente:");
@@ -150,13 +130,37 @@ private static List<Cliente> clientes = new ArrayList<>();
             }
         }
         if (clienteEncontrado != null) {
+            System.out.println("Cliente encontrado:");
             System.out.println("Nombre: " + clienteEncontrado.getNombre());
             System.out.println("Ahorro: " + clienteEncontrado.getAhorro());
+    
+            // Submenú para actualizar o eliminar ahorro
+            System.out.println("Seleccione una opción:");
+            System.out.println("1. Actualizar ahorro");
+            System.out.println("2. Eliminar ahorro");
+            int opcionSubMenu = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el buffer del scanner
+    
+            switch (opcionSubMenu) {
+                case 1:
+                    System.out.println("Ingrese la nueva cantidad de dinero ahorrado:");
+                    double nuevoAhorro = scanner.nextDouble();
+                    clienteEncontrado.setAhorro(nuevoAhorro);
+                    System.out.println("Ahorro actualizado correctamente.");
+                    break;
+                case 2:
+                    clienteEncontrado.setAhorro(0.0);
+                    System.out.println("Ahorro eliminado correctamente.");
+                    break;
+                default:
+                    System.out.println("Opción no válida");
+                    break;
+            }
         } else {
             System.out.println("Cliente no encontrado.");
         }
-    }
-
+    }  
+    
     private static void listarClientes() {
         if (clientes.isEmpty()) {
             System.out.println("No hay clientes registrados.");
@@ -167,8 +171,44 @@ private static List<Cliente> clientes = new ArrayList<>();
                 System.out.println("Cédula: " + cliente.getCedula());
                 System.out.println("Nivel de Ingresos: " + cliente.getNivelingresos());
                 System.out.println("Ahorro: " + cliente.getAhorro());
-                // Aquí podrías mostrar más información del cliente si lo deseas
+            
             }
         }
     }
+    public static void PrestarDinero(){
+
+        System.out.println("Ingrese nombre de cliente: ");
+        String nombreCliente = scanner.nextLine();
+        System.out.println("Ingrese la cantidad a prestar: ");
+        double cantidad =scanner.nextDouble();
+
+        Cliente clienteEncontrado =null;
+        for(Cliente cliente : clientes){
+            if(cliente.getNombre().equalsIgnoreCase(nombreCliente)){
+            clienteEncontrado = cliente;
+            break;
+            }
+
+        }
+        if(clienteEncontrado !=null) {
+            if(cantidad <= clienteEncontrado.getAhorro()){
+            clienteEncontrado.setAhorro(clienteEncontrado.getAhorro() - cantidad);
+            System.out.println("Prestamo exitoso, Tu saldo actual es:  " + clienteEncontrado.getAhorro());
+
+        }else if(cantidad <=clienteEncontrado.getAhorro() *2){
+            double intereses = cantidad *0.02;
+            double totalDeuda =cantidad + intereses;
+            double cuotaMensual = totalDeuda/6;
+            System.out.println("Prestamo esxitoso. la cuota mensual sera: " + cuotaMensual);
+
+        }else{
+            System.out.println("No te podemos prestar dado que la cantidad es superiro al doble de tus ahorros. ");
+
+        }
+
+      }else{
+        System.out.println("cliente no encontrado.");
+      }
+    }
+
 }
